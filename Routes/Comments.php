@@ -7,7 +7,7 @@ class Comments
     {
         switch (count($url)) {
             case 1:
-                $result = Comments::getAllComments();
+                $result = Comments::getAllComments($method);
                 break;
             case 2:
                 $result = Comments::crudComments($url[1],$method,$methodData);
@@ -19,16 +19,36 @@ class Comments
         return $result;
     }
 
-    public static function getAllComments()
+    public static function getAllComments($method)
     {
         // Code pour renvoyer tous les Articles
+        if ($method === 'GET'){
         return 'Toutes les categories';
+        }
+        else{
+            return new Exception('Mauvaise méthode');
+        }
     }
 
     public static function crudComments($id,$method,$methodData)
     {
         // Code pour manager en fonction de la méthode quelle CRUD action faire.
-        return 'crud';
+        switch($method){
+            case 'GET' : 
+                $data = Comments::getComment($id);
+                break;
+            case 'POST' :
+                $data = Comments::postComment($id); // à modifier aprés pour mettre la method Data
+                break;
+            case 'PUT' :
+                $data = Comments::putComment($id);
+                break;
+            case 'DELETE' : 
+                $data = Comments::deleteComment($id);
+                break;
+            default : $data = new Exception('Methode non reconnue');
+        }
+        return $data;
     }
     public static function getComment($id)
     {

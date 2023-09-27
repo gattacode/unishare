@@ -38,12 +38,12 @@ try {
     } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // On récupere les Valeurs
-        $baseurl = explode("/", filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL));
+        $BaseUrl = explode("/", filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL));
         $PostData = json_decode(file_get_contents('php://input'), true);
 
         // On récupere la partie de l'URL qui nous interesse
         $url = array();
-        for ($i = 4; $i < $BaseUrl; $i++) {
+        for ($i = 4; $i < count($BaseUrl); $i++) {
             array_push($url, $BaseUrl[$i]);
         }
 
@@ -62,19 +62,19 @@ try {
     } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 
         // On recupere les valeurs
-        $baseurl = explode("/", filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL));
+        $BaseUrl = explode("/", filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL));
         $PutData = json_decode(file_get_contents('php://input'), true);
 
         // On récupere la partie de l'URL qui nous interesse
         $url = array();
-        for ($i = 4; $i < $BaseUrl; $i++) {
+        for ($i = 4; $i < count($BaseUrl); $i++) {
             array_push($url, $BaseUrl[$i]);
         }
 
         if (count($url) > 0) {
 
             // On envoie au routeur des requetes PUT
-            $data = Put::Router($url, $Putdata);
+            $data = Put::Router($url, $PutData);
             if ($data instanceof Exception) {
                 throw $data;
             }
@@ -84,15 +84,14 @@ try {
     } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
 
         // On recupere les valeurs
-        $baseurl = explode("/", filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL));
+        $BaseUrl = explode("/", filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL));
         $DeleteData = '';
 
         // On récupere la partie de l'URL qui nous interesse
         $url = array();
-        for ($i = 4; $i < $BaseUrl; $i++) {
+        for ($i = 4; $i < count($BaseUrl); $i++) {
             array_push($url, $BaseUrl[$i]);
         }
-
         if (count($url) > 0){
 
             // On envoie au routeur des requetes DELETE
@@ -114,5 +113,7 @@ try {
         "code" => $e->getCode()
     ];
     print_r($err);
+    die();
 }
+echo $data;
 ?>
