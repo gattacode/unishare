@@ -35,18 +35,22 @@ class Articles
     public static function getArticle($id)
     {
         // Code pour recuperer un article;
+        return 'article' . $id . 'get';
     }
     public static function postArticle($id)
     {
         // Code pour Poster un article
+        return 'article' . $id . 'post' ;
     }
     public static function putArticle($id)
     {
         // Code pour Modifier un article
+        return 'article' . $id . 'put';
     }
     public static function deleteArticle($id)
     {
         // Code pour supprimer un article
+        return 'article' . $id . 'delete';
     }
 
     public static function getAllComments($id)

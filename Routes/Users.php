@@ -30,6 +30,12 @@
 
         public static function getUser($id){
             // Code pour recuperer un User
+            return 'User' . $id . 'Get';
+        }
+
+        public static function postUser($id){
+            // Code pour poster un User
+            return 'User' . $id . 'Post';
         }
     }
 ?>

@@ -33,18 +33,22 @@ class Comments
     public static function getComment($id)
     {
         // Code pour recuperer une categorie
+       return 'Comment ' . $id . 'Get';
     }
     public static function postComment($id)
     {
         // Code pour Poster une categorie
+        return 'Comment ' . $id . 'Post';
     }
     public static function putComment($id)
     {
         // Code pour Modifier une categorie
+        return 'Comment ' . $id . 'Put';
     }
     public static function deleteComment($id)
     {
         // Code pour supprimer une categorie
+        return 'Comment ' . $id . 'Delete';
     }
 }
 ?>

@@ -1,9 +1,8 @@
 <?php
-require_once('./Routes/Articles.php');
-require_once('./Routes/Users.php');
-require_once('./Routes/Comments.php');
-require_once('./Routes/Categories.php');
 require_once('./Router/Get.php');
+require_once('./Router/Post.php');
+require_once('./Router/Put.php');
+require_once('./Router/Delete.php');
 
 try {
 
@@ -29,66 +28,83 @@ try {
         if (count($url) > 0) {
 
             // On envoie au router des requetes GET
-            $data = Get::Router($url,$GetData);
-            if ($data instanceof Exception){
+            $data = Get::Router($url, $GetData);
+            if ($data instanceof Exception) {
                 throw $data;
             }
-        }
-        else {
+        } else {
             throw new Exception("No Route Defined");
         }
-    }
-    
-        else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // On récupere les Valeurs
         $baseurl = explode("/", filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL));
         $PostData = json_decode(file_get_contents('php://input'), true);
 
+        // On récupere la partie de l'URL qui nous interesse
         $url = array();
         for ($i = 4; $i < $BaseUrl; $i++) {
             array_push($url, $BaseUrl[$i]);
         }
+
         if (count($url) > 0) {
-            switch ($url[4]) {
-                // Gerer le cas Login et Register Aprés
-                case 'Articles':
-                    $data = Articles::manageAll($url,'POST', $PostData);
-                    if ($data instanceof Exception) {
-                        throw $data;
-                    }
-                    break;
-                case 'Users':
-                    $data = Users::manageAll($url,'POST', $PostData);
-                    if ($data instanceof Exception) {
-                        throw $data;
-                    }
-                    break;
-                case 'Categories':
-                    $data = Categories::manageAll($url,'POST', $PostData);
-                    if ($data instanceof Exception) {
-                        throw $data;
-                    }
-                    break;
-                case 'Comments':
-                    $data = Comments::manageAll($url,'¨POST', $PostData);
-                    if ($data instanceof Exception) {
-                        throw $data;
-                    }
-                    break;
+
+            // On envoie au routeur des requetes Get
+            $data = Post::Router($url, $PostData);
+            if ($data instanceof Exception) {
+                throw $data;
             }
         } else {
             throw new Exception('Empty Request');
         }
 
-        var_dump($PostData);
 
     } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-        $_PUT = json_decode(file_get_contents('php://input'), true);
-        echo $_PUT['action'];
+
+        // On recupere les valeurs
+        $baseurl = explode("/", filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL));
+        $PutData = json_decode(file_get_contents('php://input'), true);
+
+        // On récupere la partie de l'URL qui nous interesse
+        $url = array();
+        for ($i = 4; $i < $BaseUrl; $i++) {
+            array_push($url, $BaseUrl[$i]);
+        }
+
+        if (count($url) > 0) {
+
+            // On envoie au routeur des requetes PUT
+            $data = Put::Router($url, $Putdata);
+            if ($data instanceof Exception) {
+                throw $data;
+            }
+        } else {
+            throw new Exception('Empty Request');
+        }
     } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-        // A faire
-        echo 'Delete Method';
+
+        // On recupere les valeurs
+        $baseurl = explode("/", filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL));
+        $DeleteData = '';
+
+        // On récupere la partie de l'URL qui nous interesse
+        $url = array();
+        for ($i = 4; $i < $BaseUrl; $i++) {
+            array_push($url, $BaseUrl[$i]);
+        }
+
+        if (count($url) > 0){
+
+            // On envoie au routeur des requetes DELETE
+            $data = Delete::Router($url,$DeleteData);
+            if($data instanceof Exception){
+                throw $data;
+            }
+        }
+        else{
+            throw new Exception('Empty Request');
+        }
+
     } else {
         throw new Exception('Methode ou parametre non reconnu');
     }

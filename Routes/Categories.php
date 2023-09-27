@@ -33,18 +33,22 @@ class Categories
     public static function getCategorie($id)
     {
         // Code pour recuperer une categorie
+        return 'Categorie ' . $id . 'Get';
     }
     public static function postCategorie($id)
     {
         // Code pour Poster une categorie
+        return 'Categorie ' . $id . 'post';
     }
     public static function putCategorie($id)
     {
         // Code pour Modifier une categorie
+        return 'Categorie ' . $id . 'put';
     }
     public static function deleteCategorie($id)
     {
         // Code pour supprimer une categorie
+        return 'Categorie ' . $id . 'dellete';
     }
 }
 ?>
