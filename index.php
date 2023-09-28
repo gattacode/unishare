@@ -109,11 +109,11 @@ try {
     }
 } catch (Exception $e) {
     $err = [
-        "message" => $e->getMessage(),
+        "Statut" => 0,  
+        "Message" => $e->getMessage(),
         "code" => $e->getCode()
     ];
-    print_r($err);
-    die();
+    $data = $err;
 }
-echo $data;
+echo json_encode($data);
 ?>
