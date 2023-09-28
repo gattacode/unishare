@@ -1,8 +1,12 @@
 <?php
 require_once('pdo.php');
+require_once('Utils.php');
 
 class Comments
 {
+    public const TableName = "Commentaires";
+    public const ParamNames = '(id,Description,IdArticle,Pseudo,IdUser)';
+
     public static function manageAll($url, $method,$methodData)
     {
         switch (count($url)) {
@@ -23,7 +27,8 @@ class Comments
     {
         // Code pour renvoyer tous les Articles
         if ($method === 'GET'){
-        return 'Toutes les categories';
+            $result = getAllAPI(Comments::TableName);
+            return $result;
         }
         else{
             return new Exception('Mauvaise méthode');
@@ -38,37 +43,60 @@ class Comments
                 $data = Comments::getComment($id);
                 break;
             case 'POST' :
-                $data = Comments::postComment($id); // à modifier aprés pour mettre la method Data
+                $data = Comments::postComment($id,$methodData); // à modifier aprés pour mettre la method Data
                 break;
             case 'PUT' :
-                $data = Comments::putComment($id);
+                $data = Comments::putComment($id,$methodData);
                 break;
             case 'DELETE' : 
                 $data = Comments::deleteComment($id);
                 break;
-            default : $data = new Exception('Methode non reconnue');
+            default :
+             $data = new Exception('Methode non reconnue');
         }
         return $data;
     }
     public static function getComment($id)
     {
         // Code pour recuperer une categorie
-       return 'Comment ' . $id . 'Get';
+       $result = getSpecific(Comments::TableName,$id);
+       return $result;
     }
-    public static function postComment($id)
+    public static function postComment($id,$PostData)
     {
         // Code pour Poster une categorie
-        return 'Comment ' . $id . 'Post';
+        $Comment = Comments::createComment($id,$PostData);
+
+        if ($Comment instanceof Exception){
+            return $Comment;
+        }
+        else{
+            $result = postSpecific(Comments::TableName,Comments::ParamNames,$id,$Comment);
+            return $result;
+        }
     }
-    public static function putComment($id)
+    public static function putComment($id,$PutData)
     {
         // Code pour Modifier une categorie
-        return 'Comment ' . $id . 'Put';
+        $updates = createQueryUpdates($id,$PutData);
+        $result = putSpecific(Comments::TableName,$updates,$id);
+        return $result;
     }
     public static function deleteComment($id)
     {
         // Code pour supprimer une categorie
-        return 'Comment ' . $id . 'Delete';
+        $result = deleteSpecific(Comments::TableName,$id);
+        return $result;
+    }
+
+    public static function createComment($id,$methodData){
+        if (!empty($methodData['Description']) and !empty($methodData['IdArticle']) and !empty($methodData['Pseudo']) and !empty($methodData['IdUser'])){
+            if (is_string($methodData['Description']) and is_numeric($methodData['IdArticle']) and is_string($methodData['Pseudo']) and is_numeric($methodData['IdUser'])){
+                $result = ["id" => $id,"Description" => $methodData['Description'],"IdArticle" => $methodData['IdArticle'],"Pseudo" => $methodData['Pseudo'],"IdUser" => $methodData['IdUser']];
+                return $result;
+            }
+        }
+        return new Exception('Données non integres');
     }
 }
 ?>

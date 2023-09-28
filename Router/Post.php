@@ -18,7 +18,7 @@
                     $data = Categories::manageAll($url,'POST', $PostData);
                     break;
                 case 'Comments':
-                    $data = Comments::manageAll($url,'¨POST', $PostData);
+                    $data = Comments::manageAll($url,'POST', $PostData);
                     break;
                 default:
                     $data = new Exception("Endpoint Non valide");

@@ -80,7 +80,6 @@ class Articles
             $result = postSpecific(Articles::TableName, Articles::ParamsNames, $id, $Article);
             $result2 = postSpecific(Articles::ListeTableName,Articles::ListeParamsNames,$id,$Categorie);
 
-            // Penser à coder un cas ou un des deux n'est pas valide et donc il faut supprimer le post precedent Une fois le delete fait
             if ($result instanceof Exception){
                 deleteSpecific(Articles::ListeTableName,$id);
                 return $result;

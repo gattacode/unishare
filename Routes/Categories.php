@@ -90,7 +90,11 @@ class Categories
 
     public static function getAllArticles($id,$method,$route){
         if($method == 'GET' and $route='Articles'){
-            $rows 
+            // Requete sql compliquée ---> Faut parcourir la table articleCategories / recuperer les id contenant la categories 
+            $rows = getAllAPI('articlesCategories');
+            var_dump($rows);
+            foreach($rows as $row){
+            }
         }
         else return new Exception("Methode ou endpoint non valide");
     }
