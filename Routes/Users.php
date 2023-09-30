@@ -45,7 +45,12 @@
 
         public static function getUser($id){
             // Code pour recuperer un User
-            $result = getSpecific(Users::TableName,$id);
+            if(is_numeric($id)){
+            $result = getSpecific(Users::TableName,$id,'id');
+            }
+            else{
+                $result = getSpecific(Users::TableName,$id,'Pseudo');
+            }
             return $result;
         }
 

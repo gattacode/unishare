@@ -30,10 +30,10 @@ function getAllComents($id){
 		return new Exception('Aucun commentaire trouvé');
 	}
 }
-function getSpecific($table, $id)
+function getSpecific($table, $id,$identificator)
 {
 	$conn = $GLOBALS['connexion'];
-	$stmt = $conn->query("SELECT * from $table where id=$id;");
+	$stmt = $conn->query("SELECT * from $table where $identificator=$id;");
 	$row = $stmt->fetchAll();
 	if (count($row) == 1) {
 		return array('Statut' => 200,'Message' => "La récuperation des données a fonctionnée",'Data' => $row);
@@ -42,7 +42,7 @@ function getSpecific($table, $id)
 	}
 }
 
-function postSpecific($table, $sqlTables, $id, $PostData, )
+function postSpecific($table, $sqlTables, $id, $PostData)
 {
 	$conn = $GLOBALS['connexion'];
 
@@ -82,7 +82,10 @@ function postSpecific($table, $sqlTables, $id, $PostData, )
 function putSpecific($table,$updates,$id){
 	
 	$conn = $GLOBALS['connexion'];
-	$sql = "UPDATE $table SET $updates WHERE id = $id";
+	$sql = "UPDATE $table SET $updates WHERE id = $id
+	*
+	
+	";
 	$stmt = $conn->prepare($sql);
 	$result = $stmt->execute();
 	if ($result == 1){

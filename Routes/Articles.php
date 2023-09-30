@@ -20,7 +20,7 @@ class Articles
                 $result = Articles::crudArticle($url[1], $method, $methodData);
                 break;
             case 3:
-                $result = Articles::getAllComments($url[1], $method,$url[2]); // Penser à verifier que c bien comments
+                $result = Articles::getAllComments($url[1], $method, $url[2]); // Penser à verifier que c bien comments
                 break;
             default:
                 $result = new Exception('Endpoint non valide');
@@ -64,31 +64,33 @@ class Articles
     public static function getArticle($id)
     {
         // Code pour recuperer un article;
-        $result = getSpecific(Articles::TableName, $id);
+        if (is_numeric($id)) {
+            $result = getSpecific(Articles::TableName, $id, 'id');
+        } else {
+            $result = getSpecific(Articles::TableName, $id, 'Titre');
+        }
         return $result;
     }
     public static function postArticle($id, $PostData)
     {
         // Code pour Poster un article
         $Article = Articles::createArticle($id, $PostData);
-        $Categorie = Articles::createCategorie($id,$PostData);
+        $Categorie = Articles::createCategorie($id, $PostData);
 
         // Verification du resultat des 2 operations 
-        if ($Article instanceof Exception or $Categorie instanceof Exception){
+        if ($Article instanceof Exception or $Categorie instanceof Exception) {
             return $Article instanceof Exception ? $Article : $Categorie;
         } else {
             $result = postSpecific(Articles::TableName, Articles::ParamsNames, $id, $Article);
-            $result2 = postSpecific(Articles::ListeTableName,Articles::ListeParamsNames,$id,$Categorie);
+            $result2 = postSpecific(Articles::ListeTableName, Articles::ListeParamsNames, $id, $Categorie);
 
-            if ($result instanceof Exception){
-                deleteSpecific(Articles::ListeTableName,$id);
+            if ($result instanceof Exception) {
+                deleteSpecific(Articles::ListeTableName, $id);
                 return $result;
-            }
-            else if($result2 instanceof Exception){
-                deleteSpecific(Articles::TableName,$id);
+            } else if ($result2 instanceof Exception) {
+                deleteSpecific(Articles::TableName, $id);
                 return $result2;
-            }
-            else{
+            } else {
                 return $result;
             }
         }
@@ -97,21 +99,21 @@ class Articles
     {
         // Code pour Modifier un article
         $updates = createQueryUpdates($id, $PutData);
-        $result = putSpecific(Articles::TableName,$updates,$id);
+        $result = putSpecific(Articles::TableName, $updates, $id);
         return $result;
     }
     public static function deleteArticle($id)
     {
         // Code pour supprimer un article
-        $result = deleteSpecific(Articles::TableName,$id);
-        $result2 = deleteSpecific(Articles::ListeTableName,$id);
+        $result = deleteSpecific(Articles::TableName, $id);
+        $result2 = deleteSpecific(Articles::ListeTableName, $id);
         return $result;
     }
 
-    public static function getAllComments($id, $method,$route)
+    public static function getAllComments($id, $method, $route)
     {
         // Code pour récuperer tous les commentaiires d'un article
-        if ($method === 'GET' and $route =='Comments') {
+        if ($method === 'GET' and $route == 'Comments') {
             $result = getAllComents($id);
             return $result;
         } else {
@@ -121,35 +123,36 @@ class Articles
 
     public static function createArticle($id, $methodData)
     {
-        if (!empty($methodData['Titre']) and !empty($methodData['Description']) and !empty($methodData['Pseudo'])){
-        if (is_string($methodData['Titre']) and is_string($methodData['Description']) and is_string($methodData['Pseudo'])){
-            $result = array("id" => $id, "Title" => $methodData['Titre'], "Description" => $methodData['Description'], "idListe" => $id, "Pseudo" => $methodData['Pseudo']);
-            return $result;
+        if (!empty($methodData['Titre']) and !empty($methodData['Description']) and !empty($methodData['Pseudo'])) {
+            if (is_string($methodData['Titre']) and is_string($methodData['Description']) and is_string($methodData['Pseudo'])) {
+                $result = array("id" => $id, "Title" => $methodData['Titre'], "Description" => $methodData['Description'], "idListe" => $id, "Pseudo" => $methodData['Pseudo']);
+                return $result;
+            }
         }
-    }
         return new Exception('Données non integres');
     }
 
-    public static function createCategorie($id,$methodData){
-        if (!empty($methodData['Categories'])){
-        $data = $methodData['Categories'];
-            if (is_array($data)){
+    public static function createCategorie($id, $methodData)
+    {
+        if (!empty($methodData['Categories'])) {
+            $data = $methodData['Categories'];
+            if (is_array($data)) {
                 $test = true;
-                foreach($data as $idCategorie){
-                    if (!is_numeric($idCategorie)){
-                        $test =false;
+                foreach ($data as $idCategorie) {
+                    if (!is_numeric($idCategorie)) {
+                        $test = false;
                     }
                 }
-                if (count($data)>3){
+                if (count($data) > 3) {
                     $test = false;
                 }
-                if ($test){
-                    return array("id" => $id,"Categorie1" => $data[0],"Categorie2" => $data[1],"Categorie3" => $data[2]);
+                if ($test) {
+                    return array("id" => $id, "Categorie1" => $data[0], "Categorie2" => $data[1], "Categorie3" => $data[2]);
                 }
             }
         }
         return new Exception('Données non integres');
-        
+
     }
 
 }
