@@ -1,6 +1,7 @@
 <footer>
-		Unishare - By Abdou & Gattacode
-	</footer>
-	
-	</body>
+	Unishare - By Abdou & Gatta
+</footer>
+
+</body>
+
 </html>
