@@ -59,7 +59,7 @@ class Comments
     public static function getComment($id)
     {
         // Code pour recuperer une categorie
-       $result = getSpecific(Comments::TableName,$id);
+       $result = getSpecific(Comments::TableName,$id,'id');
        return $result;
     }
     public static function postComment($id,$PostData)
