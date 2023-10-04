@@ -1,5 +1,5 @@
 <header class="flex flex-row items-center justify-center p-4 w-full">
-    <a href="index.php" class="mr-40"><img class="h-8" alt="logo" src="./images/logo-gradient.png"></img></a>
+    <a href="index" class="mr-40"><img class="h-8" alt="logo" src="./images/logo-gradient.png"></img></a>
     <form class="mr-auto my-0">
         <div class="flex flex-row w-50 bg-gray-100 p-2 px-4 rounded-xl">
             <input type="search" id="default-search" class="w-full bg-transparent outline-none"
@@ -11,6 +11,6 @@
         </div>
     </form>
     <div class="w-30">
-        <a class="whitespace-nowrap	transition duration-150 ease-in-out text-orange-400 hover:text-white border border-orange-400 hover:bg-orange-400 focus:ring-4 focus:outline-none focus:ring-orange-400 font-bold rounded-lg px-5 py-2 cursor-pointer">S'inscrire/Se connecter</a>
+        <a href="./login.php"class="whitespace-nowrap	transition duration-150 ease-in-out text-orange-400 hover:text-white border border-orange-400 hover:bg-orange-400 focus:ring-4 focus:outline-none focus:ring-orange-400 font-bold rounded-lg px-5 py-2 cursor-pointer">S'inscrire/Se connecter</a>
     </div>
 </header>
