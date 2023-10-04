@@ -1,7 +1,7 @@
 <?php
     function display_Navbar(){
-        echo '<header class="flex flex-row items-center justify-center p-4 w-full bg-white border-gray-200">
-        <a href="index.php" class="mr-40"><img class="h-8" alt="logo" src="./images/logo-gradient.png"></img></a>
+        echo '<header class="flex flex-row items-center justify-center p-4 w-full bg-white border-gray-200 shadow-gray-100">
+        <a href="index.php" class="mr-40"><img class="h-8" alt="logo" src="../images/logo-gradient.png"></img></a>
         <form class="mr-auto my-0">
             <div class="flex flex-row w-50 bg-gray-100 p-2 px-4 rounded-xl">
                 <input type="search" id="default-search" class="w-full bg-transparent outline-none"
