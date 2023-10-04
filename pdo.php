@@ -1,4 +1,4 @@
-<?php
+	<?php
 $connexion = null;
 try {
 	$connexion = new PDO('mysql:host=localhost;dbname=unishare', 'root', '');
@@ -33,7 +33,7 @@ function getAllComents($id){
 function getSpecific($table, $id,$identificator)
 {
 	$conn = $GLOBALS['connexion'];
-	$stmt = $conn->query("SELECT * from $table where $identificator=$id;");
+	$stmt = $conn->query("SELECT * from $table where $identificator='$id';");
 	$row = $stmt->fetchAll();
 	if (count($row) == 1) {
 		return array('Statut' => 200,'Message' => "La récuperation des données a fonctionnée",'Data' => $row);

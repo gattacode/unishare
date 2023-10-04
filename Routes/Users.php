@@ -49,7 +49,7 @@
             $result = getSpecific(Users::TableName,$id,'id');
             }
             else{
-                $result = getSpecific(Users::TableName,$id,'Pseudo');
+                $result = getSpecific(Users::TableName,$id,'Email');
             }
             return $result;
         }

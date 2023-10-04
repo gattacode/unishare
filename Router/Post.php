@@ -3,6 +3,7 @@
     require_once('./Routes/Users.php');
     require_once('./Routes/Comments.php');
     require_once('./Routes/Categories.php');
+    require_once('./Routes/Login.php');
 
     class Post{
         public static function Router($url,$PostData){
@@ -19,6 +20,9 @@
                     break;
                 case 'Comments':
                     $data = Comments::manageAll($url,'POST', $PostData);
+                    break;
+                case 'Login' :
+                    $data = Login::manageAll($url,$PostData);
                     break;
                 default:
                     $data = new Exception("Endpoint Non valide");
