@@ -11,6 +11,6 @@
         </div>
     </form>
     <div class="w-30">
-        <a class="whitespace-nowrap	transition duration-150 ease-in-out text-amber-300 hover:text-white border border-amber-300 hover:bg-amber-300 focus:ring-4 focus:outline-none focus:ring-amber-300 font-bold rounded-lg px-5 py-2 cursor-pointer	">S'inscrire/Se connecter</a>
+        <a class="whitespace-nowrap	transition duration-150 ease-in-out text-orange-400 hover:text-white border border-orange-400 hover:bg-orange-400 focus:ring-4 focus:outline-none focus:ring-orange-400 font-bold rounded-lg px-5 py-2 cursor-pointer">S'inscrire/Se connecter</a>
     </div>
 </header>
