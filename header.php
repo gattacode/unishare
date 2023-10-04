@@ -7,8 +7,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.tailwindcss.com"></script>
         <title>Unishare</title>
+        
     </head>
-    <body>
+    <body class="bg-slate-300 m-0">
     ';
     }
 ?>
