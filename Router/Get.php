@@ -3,6 +3,7 @@
     require_once('./Routes/Users.php');
     require_once('./Routes/Comments.php');
     require_once('./Routes/Categories.php');
+    require_once('./Routes/check.php');
     
     class Get{
 
@@ -21,7 +22,9 @@
                 case 'Comments':
                     $data = Comments::manageAll($url, 'GET', $GetData);
                     break;
-                // Faire le Case Check apres
+                case 'Check' : 
+                    $data = Check::manage($url);
+                    break;
                 default:
                     $data = new Exception("Endpoint Non valide");
                 }   
