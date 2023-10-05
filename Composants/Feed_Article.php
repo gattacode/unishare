@@ -12,7 +12,7 @@
                     '
                 </div>
 
-                <div class="w-11/12 h-10 m-3 flex flex-row gap-1 justify-start">
+                <div class=" w-96 -ml-3 h-10 m-3 flex flex-row gap-1 justify-start">
                     ';
         for($i=1;$i<=3;$i++){
             $index = "Categorie" . $i;
@@ -29,12 +29,12 @@
             displayCategorie($article[$index],$color);
         }
         echo'
-                <p class=" text-orange-500">Lire la suite...</p>
+                <p class=" mt-2 text-orange-500"><a href="http://localhost/Blog/Front/Pages/Article.php?id= ' . $article['Id'] .'">Lire la suite...</a></p>
                 </div>
             </div>
         </div>';
     }
     function displayCategorie($name,$color){
-        echo '<div class="border border-black w-max h-5/6 m-1 text-center text-white font-semibold ' . $color . '" >' . $name .'</div>';
+        echo '<div class="border border-black w-max p-1 h-5/6 m-1 text-center text-white font-semibold ' . $color . '" >' . $name .'</div>';
     }
 ?>
