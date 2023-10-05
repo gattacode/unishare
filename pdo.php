@@ -30,6 +30,17 @@ function getAllComents($id){
 		return new Exception('Aucun commentaire trouvé');
 	}
 }
+function getAllCategories($id){
+	$conn = $GLOBALS['connexion'];
+	$stmt = $conn->query("SELECT * from articlesCategories where id=$id;");
+	$result = $stmt->fetchAll();
+	if (count($result) != 0){
+		return array('Statut' => 200,'Message' => "La récuperation des données a fonctionnée",'Data' => $result);
+	}
+	else {
+		return new Exception('Aucune categorie trouvée trouvé');
+	}
+}
 function getSpecific($table, $id,$identificator)
 {
 	$conn = $GLOBALS['connexion'];

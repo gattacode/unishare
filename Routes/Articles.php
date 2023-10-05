@@ -113,9 +113,15 @@ class Articles
     public static function getAllComments($id, $method, $route)
     {
         // Code pour récuperer tous les commentaiires d'un article
-        if ($method === 'GET' and $route == 'Comments') {
+        if ($method === 'GET') {
+            if ( $route == 'Comments'){
             $result = getAllComents($id);
             return $result;
+            }
+            if($route == 'Categories'){
+                $result = getAllCategories($id);
+                return $result;
+            }
         } else {
             return new Exception("Mauvaise Méthode ou Endpoint");
         }
