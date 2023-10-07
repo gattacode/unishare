@@ -1,4 +1,6 @@
 <?php
+require_once('../Composants/header.php');
+require_once('../Composants/navbar.php');
 
 include_once('./Utils.php');
 
@@ -104,3 +106,4 @@ $comment = array("Pseudo" => $user['Pseudo'], "Description" => "Trés bon articl
         </div>
     </div>
 </div>
+<?php require_once('../Composants/footer.php'); ?>

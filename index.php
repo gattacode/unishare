@@ -1,4 +1,1 @@
-<?php require_once('header.php'); ?>
-<?php require_once('navbar.php'); ?>
-<?php require_once('profile.php'); ?>
-<?php require_once('footer.php'); ?>
+<?php header('Location: '. './Pages/feed.php'); ?>
