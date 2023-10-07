@@ -30,9 +30,9 @@ function getAllWhere($table,$id,$identificator){
 		return new Exception('Aucun element trouvé');
 	}
 }
-function getAllWhereNumber($table,$id){
+function getAllWhereNumber($table,$id,$identificator){
 	$conn = $GLOBALS['connexion'];
-	$stmt = $conn->query("SELECT * from $table where id=$id;");
+	$stmt = $conn->query("SELECT * from $table where $identificator=$id;");
 	$result = $stmt->fetchAll();
 	if (count($result) != 0){
 		return array('Statut' => 200,'Message' => "La récuperation des données a fonctionnée",'Data' => $result);
