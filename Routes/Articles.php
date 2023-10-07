@@ -115,17 +115,17 @@ class Articles
         // Code pour récuperer tous les commentaiires d'un article
         if ($method === 'GET') {
             if ( $route == 'Comments'){
-            $result = getAllWhere('Commentaires',$id,'id');
+            $result = getAllWhereNumber('Commentaires',$id);
             return $result;
             }
-            if($route == 'Categories'){
-                $result = getAllCategories($id);
+            if( $route == 'Categories'){
+                $result = getAllWhereNumber('Categories',$id);
                 return $result;
             }
-        } else {
-            return new Exception("Mauvaise Méthode ou Endpoint");
         }
+        return new Exception("Mauvaise Méthode ou Endpoint");
     }
+
 
     public static function createArticle($id, $methodData)
     {
