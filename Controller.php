@@ -41,6 +41,10 @@
                 }
                 else echo 'error veuillez retournez à la page précedente';
                 break;
+            case 'PostArticle':
+                var_dump($_POST);
+                die();
+                break;
             default :
             header('Location: feed.php');
             break;
