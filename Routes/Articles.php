@@ -8,8 +8,8 @@ class Articles
     public const TableName = 'Articles';
     public const ParamsNames = '(id,Titre,Description,IdListe,Pseudo)';
     public const ListeParamsNames = '(id,Categorie1,Categorie2,Categorie3)';
-
     public const ListeTableName = 'articlecategories';
+    
     public static function manageAll($url, $method, $methodData)
     {
         switch (count($url)) {
@@ -67,7 +67,7 @@ class Articles
         if (is_numeric($id)) {
             $result = getSpecific(Articles::TableName, $id, 'id');
         } else {
-            $result = getSpecific(Articles::TableName, $id, 'Titre');
+            $result = getAllWhere(Articles::TableName, $id,'Pseudo');
         }
         return $result;
     }
@@ -115,7 +115,7 @@ class Articles
         // Code pour récuperer tous les commentaiires d'un article
         if ($method === 'GET') {
             if ( $route == 'Comments'){
-            $result = getAllComents($id);
+            $result = getAllWhere('Commentaires',$id,'id');
             return $result;
             }
             if($route == 'Categories'){

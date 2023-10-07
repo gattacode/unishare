@@ -19,15 +19,15 @@ function getAllAPI($table)
 		return new Exception('Table ' . $table . ' vide');
 	}
 }
-function getAllComents($id){
+function getAllWhere($table,$id,$identificator){
 	$conn = $GLOBALS['connexion'];
-	$stmt = $conn->query("SELECT * from Commentaires where IdArticle=$id;");	
+	$stmt = $conn->query("SELECT * from $table where $identificator='$id';");	
 	$result = $stmt->fetchAll();
 	if (count($result) != 0){
 		return array('Statut' => 200,'Message' => "La récuperation des données a fonctionnée",'Data' => $result);
 	}
 	else {
-		return new Exception('Aucun commentaire trouvé');
+		return new Exception('Aucun element trouvé');
 	}
 }
 function getAllCategories($id){
