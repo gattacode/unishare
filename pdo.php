@@ -93,10 +93,7 @@ function postSpecific($table, $sqlTables, $id, $PostData)
 function putSpecific($table,$updates,$id){
 	
 	$conn = $GLOBALS['connexion'];
-	$sql = "UPDATE $table SET $updates WHERE id = $id
-	*
-	
-	";
+	$sql = "UPDATE $table SET $updates WHERE id=$id;";
 	$stmt = $conn->prepare($sql);
 	$result = $stmt->execute();
 	if ($result == 1){
