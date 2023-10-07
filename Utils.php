@@ -1,5 +1,4 @@
 <?php
-
     function createGetRequest($url){
         $opts = array('http' => array('method' => 'GET'));
         $context = stream_context_create($opts);

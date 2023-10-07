@@ -16,8 +16,14 @@ if (!checkUser(session_id())) {
 }
 
 $articles = array();
+// On cherche si il s'agit d'une recherche ou d'un simple accueil
+if (isset($_GET['Search'])){
+    $reqArticles = createGetRequest('http://localhost/Blog/API/index.php/Articles/' . $_GET['Search']);
+}
+else{
 // Rajouter un truc pour la recherche d'un article
 $reqArticles = createGetRequest('http://localhost/Blog/API/index.php/Articles');
+}
 
 $ErrorCheck = true;
 
@@ -55,8 +61,9 @@ display_Navbar();
 <div class="w-5/6 ml-44 mt-16 flex flex-wrap gap-10 h-max justify-evenly bg-transparent">
     <?php
 
-    if ($ErrorCheck)
-        echo '<h1 class="font-bold">Erreur : ' . $req["Message"] . '</h1>';
+    if ($ErrorCheck){
+        echo '<h1 class="font-bold">Erreur : ' . $reqArticles["Message"] . '</h1>';
+    }
     else {
         for ($i = 0; $i < $nbArticles; $i++) {
             display_Article($articles[$i]);
