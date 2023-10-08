@@ -2,8 +2,6 @@
 require_once('../Composants/header.php');
 require_once('../Composants/navbar.php');
 
-include_once('./Utils.php');
-
 if ($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['logout'])) {
     session_destroy();
 }

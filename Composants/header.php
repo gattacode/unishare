@@ -1,4 +1,10 @@
-<html>
+<?php 
+session_id("sessiondefault");
+session_start(); 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -17,3 +23,6 @@
 </head>
 
 <body class="flex flex-col font-sans">
+<?php 
+include_once('../utils.php');
+?>

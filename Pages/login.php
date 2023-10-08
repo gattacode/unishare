@@ -1,6 +1,14 @@
 <?php
 require_once('../Composants/header.php');
 require_once('../Composants/navbar.php');
+
+if (isset($_POST['newCatName']) && !empty($_POST['newCatName'])) {
+    $newCatName = $_POST['newCatName'];
+    $newCatId = count($categories) + 1;
+    createPostRequest('http://localhost/blog-tp-note-php/api/index.php/Categories/' . $newCatId, ["Name" => $newCatName]);
+    echo "<meta http-equiv='refresh' content='0'>";
+}
+
 ?>
 <div class="bg-gray-100 w-full h-full flex items-center justify-center">
     <div class="bg-white w-96 h-96 rounded-3xl shadow-lg flex flex-col">
