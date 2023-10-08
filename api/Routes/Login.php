@@ -17,7 +17,7 @@
         static function LoginUser($postData){
             // Faire le code pour verifier l'email into le mot de passe
             $checkIntegrity = Login::checkIntegrity($postData);
-            if ($checkIntegrity){
+            if ($checkIntegrity){   
                 $checkEmail = getSpecific(Users::TableName,$postData["Email"],'Email');
                 if (!$checkEmail instanceof Exception){
                     if ($checkEmail["Data"][0]["Password"] === $postData["Password"]){

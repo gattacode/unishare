@@ -2,12 +2,19 @@
 require_once('../Composants/header.php');
 require_once('../Composants/navbar.php');
 
-/** Ajouter fonction verification admin */
-$isAdmin = true;
+if (!checkUser(session_id())) {
+    echo '<h1> Veuillez vous connectez : <a href="http://localhost/Blog/Front/Pages/Login.php">Se connecter</a></h1>'; // Pour l'instant ca marche pas
+    die();
+}
+
+$isAdmin = false;
+
+if (session_id() == "sessionadmin"){
+    $isAdmin = true;
+}
 
 $requestData = createGetRequest('http://localhost/blog-tp-note-php/api/index.php/Categories');
 
-$categories = [];
 foreach ($requestData['Data'] as $categorie) {
     $categories[] = $categorie['Name'];
     $categoryIds[] = $categorie['Id'];
@@ -26,7 +33,6 @@ if (isset($_POST['delete-button'])) {
     createDeleteRequest('http://localhost/blog-tp-note-php/api/index.php/Categories/' . $categoryIdToDelete);
     echo "<meta http-equiv='refresh' content='0'>";
 }
-
 
 if ($isAdmin) {
     echo '

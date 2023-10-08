@@ -2,8 +2,23 @@
 require_once('../Composants/header.php');
 require_once('../Composants/navbar.php');
 
+if (!checkUser(session_id())) {
+    echo '<h1> Veuillez vous connectez : <a href="http://localhost/Blog/Front/Pages/Login.php">Se connecter</a></h1>'; // Pour l'instant ca marche pas
+    die();
+}
+
 if ($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['logout'])) {
-    session_destroy();
+    session_unset();
+    // Suppression de tous les cookies
+    if (isset($_SERVER['HTTP_COOKIE'])) {
+        $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+        foreach($cookies as $cookie) {
+            $parts = explode('=', $cookie);
+            $name = trim($parts[0]);
+            setcookie($name, '', time()-1000);
+            setcookie($name, '', time()-1000, '/');
+        }
+    }
 }
 function display_Article($article)
 {
@@ -77,7 +92,7 @@ $comment = array("Pseudo" => $user['Pseudo'], "Description" => "Trés bon articl
             <div class="text-center text-xl	 m-5 p-10 font-medium">
                 <?php echo $user["Pseudo"] ?>
             </div>
-            <form action="./index">
+            <form method="POST" action="./profile">
                 <input class="transition duration-150 ease-in-out text-red-600 hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-600 font-bold rounded-lg px-5 py-2 cursor-pointer" name="logout" type="submit" value="Se déconnecter" />
             </form>
         </div>
