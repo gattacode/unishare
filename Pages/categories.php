@@ -3,13 +3,13 @@ require_once('../Composants/header.php');
 require_once('../Composants/navbar.php');
 
 if (!checkUser(session_id())) {
-    echo '<h1> Veuillez vous connectez : <a href="http://localhost/Blog/Front/Pages/Login.php">Se connecter</a></h1>'; // Pour l'instant ca marche pas
+    require_once('../Composants/askLogin.php');
     die();
 }
 
 $isAdmin = false;
 
-if (session_id() == "sessionadmin"){
+if (session_id() == "sessionadmin") {
     $isAdmin = true;
 }
 
