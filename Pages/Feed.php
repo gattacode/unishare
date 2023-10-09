@@ -1,28 +1,24 @@
 <?php
-session_id("fosfjisd");
-session_start();
-
 include_once('../Composants/header.php');
-include_once('../Composants/footer.php');
-include_once('../Composants/navbar.php');
 include_once('../Composants/Feed_Article.php');
-include_once('../Utils.php');
 // Faire une logique pour récuperer le pseudo, Titre, Description , idListe, Pseudo
 
 // D'abord on check si l'User est loggé
 if (!checkUser(session_id())) {
-    echo '<h1> Veuillez vous connectez : <a href="http://localhost/Blog/Front/Pages/Login.php">Se connecter</a></h1>'; // Pour l'instant ca marche pas
+    require_once('../Composants/askLogin.php');
     die();
 }
 
+
+include_once('../Composants/navbar.php');
 $articles = array();
 // On cherche si il s'agit d'une recherche ou d'un simple accueil
 if (isset($_GET['Search'])){
-    $reqArticles = createGetRequest('http://localhost/Blog/API/index.php/Articles/' . $_GET['Search']);
+    $reqArticles = createGetRequest(Routes::ArticlesRoute . $_GET['Search']);
 }
 else{
 // Rajouter un truc pour la recherche d'un article
-$reqArticles = createGetRequest('http://localhost/Blog/API/index.php/Articles');
+$reqArticles = createGetRequest(Routes::AllArticlesRoute);
 }
 
 $ErrorCheck = true;
@@ -32,14 +28,14 @@ if ($reqArticles["Statut"] !== 0) {
     $nbArticles = count($data);
 
     foreach ($data as $article) {
-        $reqCategories = createGetRequest('http://localhost/Blog/API/Index.php/Articles/' . $article["id"] . '/Categories');
+        $reqCategories = createGetRequest(Routes::ArticlesRoute . $article["id"] . '/Categories'); // a changer
 
         if ($reqCategories["Statut"] !== 0) {
             $categories = $reqCategories["Data"][0];
 
-            $Categorie1 = createGetRequest('http://localhost/Blog/API/Index.php/Categories/' . $categories[1]);
-            $Categorie2 = createGetRequest('http://localhost/Blog/API/Index.php/Categories/' . $categories[2]);
-            $Categorie3 = createGetRequest('http://localhost/Blog/API/Index.php/Categories/' . $categories[3]);
+            $Categorie1 = createGetRequest(Routes::CategoriesRoute . $categories[1]);
+            $Categorie2 = createGetRequest(Routes::CategoriesRoute . $categories[2]);
+            $Categorie3 = createGetRequest(Routes::CategoriesRoute . $categories[3]);
 
             if($Categorie1["Statut"] === 200 and $Categorie2["Statut"] === 200 and $Categorie3["Statut"] === 200){
             $Categorie1 = $Categorie1["Data"][0]["Name"];
@@ -55,8 +51,6 @@ if ($reqArticles["Statut"] !== 0) {
     }
 }
 
-headerVue();
-display_Navbar();
 ?>
 <div class="w-5/6 ml-44 mt-16 flex flex-wrap gap-10 h-max justify-evenly bg-transparent">
     <?php
@@ -72,5 +66,5 @@ display_Navbar();
     ?>
 </div>
 <?php
-footerVue();
+include_once('../Composants/footer.php');
 ?>

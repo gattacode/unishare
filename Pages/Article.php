@@ -1,32 +1,33 @@
 <?php
-    session_start();
     require_once('../Composants/header.php');
-    require_once('../Composants/navbar.php');
-    require_once('../Composants/footer.php');
-    require_once('../Composants/Article_Comment.php');
-    require_once('../Utils.php');
+    // Protection de la page
+    if (!checkUser(session_id())) {
+        require_once('../Composants/askLogin.php');
+        die();
+    }
 
     // Recuperer l'article et les commentaires liés à cet article  / Implementer un controller
     
     // On récupere l'id de l'article
     $url = explode("/", filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL));
-    $idArticle = explode("Article.php?id=%20",$url[4])[1];
+    $idArticle = explode("Article.php?id=%20",$url[3])[1];
     $ErrorCheckArticle = false;
     $ErrorCheckComments = false;
 
     // On récupere l'article
-    $reqArticle = createGetRequest("http://localhost/Blog/API/index.php/Articles/" . $idArticle);
+    $reqArticle = createGetRequest(Routes::ArticlesRoute . $idArticle);
     if ($reqArticle['Statut'] == 200){
         // On recupère les catégories 
         $reqArticle = $reqArticle['Data'][0];
-        $reqCategories = createGetRequest("http://localhost/Blog/API/index.php/Articles/" . $idArticle . '/Categories');
+        
+        $reqCategories = createGetRequest(Routes::ArticlesRoute . $idArticle . '/Categories');
         if($reqCategories['Statut'] === 200 ){
             $reqCategories = $reqCategories['Data'][0];
             
             // On récupere ensuite chaque nom pour chaque categorie
-            $Categorie1 = createGetRequest('http://localhost/Blog/API/Index.php/Categories/' . $reqCategories[1]);
-            $Categorie2 = createGetRequest('http://localhost/Blog/API/Index.php/Categories/' . $reqCategories[2]);
-            $Categorie3 = createGetRequest('http://localhost/Blog/API/Index.php/Categories/' . $reqCategories[3]);
+            $Categorie1 = createGetRequest( Routes::CategoriesRoute . $reqCategories[1]);
+            $Categorie2 = createGetRequest( Routes::CategoriesRoute . $reqCategories[2]);
+            $Categorie3 = createGetRequest( Routes::CategoriesRoute . $reqCategories[3]);
 
             if($Categorie1["Statut"] === 200 and $Categorie2["Statut"] === 200 and $Categorie3["Statut"] === 200){
             $Categorie1 = $Categorie1["Data"][0]["Name"];
@@ -46,7 +47,8 @@
     }
 
     // On récupere les commentaires de l'article
-    $reqComments = createGetRequest("http://localhost/Blog/API/index.php/Articles/" . $idArticle . '/Comments');
+    $reqComments = createGetRequest( Routes::AllCommentsArticle($idArticle));
+    
     if($reqComments['Statut'] === 200){
         $Comments = $reqComments['Data'];
         $nbComments = count($Comments);
@@ -57,12 +59,12 @@
     }
 
     
-    headerVue();
-    display_Navbar();
+    require_once('../Composants/navbar.php');
+    require_once('../Composants/Article_Comment.php');
 
     if($ErrorCheckArticle){
         echo '<h1>Pas d article dispo</h1>';
-        footerVue();
+        require_once('../Composants/footer.php');
         die();
     }
 
@@ -117,16 +119,18 @@
                 }
                 else{
                 for($i=0;$i<$nbComments;$i++){
-                    display_Comment($Comments[$i]);
+                    display_Comment($Comments[$i],'Article');
                 }
             }
             ?>
         </div>
     
         <div class="border border-black">
-            <form name="form" class="flex flex-col" action="../Controller.php" method="post">
+            <form name="form" class="flex flex-col" action="../Controller.php" method="post"> 
                 <input name='Request' value="PostComment" hidden/>
                 <input name='IdArticle' value=<?php echo $article["Id"]?> hidden/>
+                <input name='Pseudo'value="<?php echo $_SESSION['Pseudo']?>" hidden/>
+                <input name='IdUser'value="<?php echo $_SESSION['IdUser']?>" hidden/>
                 <textarea name='Desc' placeholder="Postez votre commentaire"></textarea>
                 <button class="border border-black rounded-md p-1" type="Submit"> Envoyez</button>
             </form>
@@ -134,5 +138,5 @@
     </div>
     </div>      
 <?php
-    footerVue();
+    require_once('../Composants/footer.php');
 ?>

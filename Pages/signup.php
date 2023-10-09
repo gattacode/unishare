@@ -2,10 +2,10 @@
 require_once('../Composants/header.php');
 require_once('../Composants/navbar.php');
 
-$users = createGetRequest("http://localhost/blog-tp-note-php/api/index.php/Users");
+$users = createGetRequest(Routes::AllUsersRoute);
 $usedId = array();
 foreach($users["Data"] as $user){
-    array_push($usedId,$user['ID']);
+    array_push($usedId,$user['Id']);
 }
 $stop = false;
 $id = 0;
@@ -21,7 +21,7 @@ if (isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['password'
     $email = $_POST['email'];
     $password = $_POST['password'];
     $sessionId = $id;
-    createPostRequest('http://localhost/blog-tp-note-php/api/index.php/Users/'. $id, ["ID" => $id, "Email" => $email, "Password" => $password, "Pseudo" => $pseudo, "Admin" => 0, "SessionId" => $id ]);
+    createPostRequest(Routes::UsersRoute . $id, ["ID" => $id, "Email" => $email, "Password" => $password, "Pseudo" => $pseudo, "Admin" => 0, "SessionId" => $id ]);
 }
 
 ?>
@@ -29,7 +29,7 @@ if (isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['password'
     <div class="bg-white w-96 h-96 rounded-3xl shadow-lg flex flex-col">
         <div class="flex flex-row flex-wrap text-center text-lg w-full justify-center mt-4 mb-2 h-10">
             <p class="font-bold text-orange-400 w-5/12 ">S'incrire</p>
-            <a href="./login" class="font-bold text-gray-300 w-5/12">Se connecter</a>
+            <a href="<?php echo Pages::LoginPage?>" class="font-bold text-gray-300 w-5/12">Se connecter</a>
             <div class="h-px bg-orange-400 w-5/12 "></div>
             <div class="h-px bg-gray-300 w-5/12"></div>
         </div>

@@ -1,11 +1,13 @@
 <?php
 require_once('../Composants/header.php');
-require_once('../Composants/navbar.php');
 
 if (!checkUser(session_id())) {
     require_once('../Composants/askLogin.php');
     die();
 }
+
+require_once('../Composants/navbar.php');
+include_once('../Composants/Article_Comment.php');  
 
 if ($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['logout'])) {
     session_unset();
@@ -55,7 +57,7 @@ function display_Article($article)
         displayCategorie($article[$index], $color);
     }
     echo '
-            <p class=" mt-2 text-orange-500"><a href="http://localhost/Blog/Front/Pages/Article.php?id= ' . $article['Id'] . '">Lire la suite...</a></p>
+            <p class=" mt-2 text-orange-500"><a href="' . Pages::ArticlePage . $article['Id'] . '">Lire la suite...</a></p>
             </div>
         </div>
     </div>';
@@ -65,26 +67,61 @@ function displayCategorie($name, $color)
     echo '<div class="border border-black w-max p-1 h-5/6 m-1 text-center text-white font-semibold ' . $color . '" >' . $name . '</div>';
 }
 
-function display_Comment($comment, $user_id)
-{
-    if ($user_id == $comment["Pseudo"])
-        echo '
-        <div class="rounded-2xl shadow-lg m-3 p-6 w-11/12 h-max bg-white">
-            <div class="m-2 font-semibold">' . $comment["Pseudo"] . '</div>
-            <div class="m-2"><p class="font-normal"> ' . $comment["Description"] . '</p></div>
-        </div>';
+
+// Recuperer les Users
+$reqUser = createGetRequest(Routes::UsersRoute . $_SESSION['IdUser']);
+if ($reqUser["Statut"] === 200){
+    $user = $reqUser["Data"][0];
+}
+else{
+    echo "Pas de User Trouvé";
+    die();
+}
+// Recuperer les Articles
+$reqArticles = createGetRequest(Routes::ArticlesRoute . $_SESSION['Pseudo']);
+$articles = array();
+if ($reqArticles["Statut"] !== 0) {
+    $data = $reqArticles["Data"];
+    $nbArticles = count($data);
+
+    foreach ($data as $article) {
+        $reqCategories = createGetRequest(Routes::ArticlesRoute . $article["id"] . '/Categories'); // a changer
+
+        if ($reqCategories["Statut"] !== 0) {
+            $categories = $reqCategories["Data"][0];
+
+            $Categorie1 = createGetRequest(Routes::CategoriesRoute . $categories[1]);
+            $Categorie2 = createGetRequest(Routes::CategoriesRoute . $categories[2]);
+            $Categorie3 = createGetRequest(Routes::CategoriesRoute . $categories[3]);
+
+            if($Categorie1["Statut"] === 200 and $Categorie2["Statut"] === 200 and $Categorie3["Statut"] === 200){
+            $Categorie1 = $Categorie1["Data"][0]["Name"];
+            $Categorie2 = $Categorie2["Data"][0]["Name"];
+            $Categorie3 = $Categorie3["Data"][0]["Name"];
+
+
+            $newArticle = array("Id" => $article["id"],"Titre" => $article["Titre"], "Description" => $article["Description"], "Pseudo" => $article["Pseudo"], "Categorie1" => $Categorie1, "Categorie2" => $Categorie2, "Categorie3" => $Categorie3);
+            array_push($articles, $newArticle);
+            $ErrorCheck = false;
+            }
+        }
+    }
 }
 
-$user = array("Pseudo" => "Abdou", "Articles" => "");
-$lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus in mauris sit amet finibus. Maecenas odio dui, commodo sed mauris eget, accumsan semper ligula. Duis pellentesque ante nec tristique efficitur. Etiam ac augue et felis vehicula pellentesque. Aliquam ultrices porta dolor. Morbi pretium a mauris imperdiet scelerisque. Curabitur sit amet libero eget diam gravida tristique quis non lacus. Nunc vehicula ex arcu, ut aliquet erat elementum at. Pellentesque vehicula lectus ac quam eleifend interdum. Mauris eros sem, elementum a odio non, placerat aliquam ante. Quisque mattis mi nec libero aliquet hendrerit. Integer ex libero, venenatis non finibus ac, congue vel libero.
-Etiam fringilla volutpat tincidunt. Praesent et tortor lacinia, tempor sem vel, bibendum magna. Morbi non pharetra risus. Duis lorem mi, faucibus vitae tincidunt rhoncus, gravida lacinia lectus. Etiam lorem ligula, venenatis sit amet urna sit amet, dignissim interdum est. Nulla quis feugiat risus. Proin venenatis metus in erat tincidunt dictum. Vestibulum malesuada quam dolor, ut sodales libero vulputate eu. Nam at ultricies orci, a egestas augue. Maecenas commodo dui felis, id suscipit ligula ullamcorper et. In a ex sit amet libero sagittis suscipit eu a diam. Etiam vel dolor sed nibh malesuada convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-Ut eleifend vehicula ultrices. Donec id nibh neque. Nulla id tortor lectus. Aliquam sed bibendum ex. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec viverra, arcu quis egestas tempus, libero mauris efficitur mauris, et lacinia ipsum tortor sed sapien. Maecenas viverra orci sapien, non elementum nisi commodo id. Maecenas eleifend et tortor a maximus. Morbi fermentum nisl ac magna volutpat hendrerit. Donec convallis, sem sodales molestie fringilla, dui odio rutrum dolor, vitae aliquam lectus enim id quam. Proin ornare vestibulum lorem, eu semper lectus porta vel. Donec ullamcorper fermentum mollis. Nulla consectetur, augue eu tristique ultrices, turpis justo tincidunt odio, at consequat purus erat a erat. Nulla sit amet enim condimentum, suscipit orci sed, auctor erat. Sed tincidunt dapibus tincidunt.
-Quisque quis iaculis nulla. Nulla facilisi. Donec consequat feugiat mattis. In non diam velit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Fusce ut nulla eget dui rhoncus euismod. Maecenas mollis vitae mauris sed laoreet. Aenean dapibus porttitor lorem id feugiat. Nulla ac scelerisque sapien. Nulla placerat odio ut nulla lacinia, ac semper quam varius. Nulla arcu massa, gravida vel vulputate pulvinar, pharetra sit amet mauris.
-Maecenas mattis ac tortor sit amet rutrum. Vestibulum nec sapien lacus. Pellentesque elementum quis dolor at auctor. Quisque eget mollis arcu. Duis feugiat luctus scelerisque. Cras vehicula augue nec imperdiet accumsan. Curabitur semper nec purus vel rhoncus. Duis et lorem lacus. Curabitur sed quam id lorem euismod ultrices.";
-
-$article = array("Id" => 'index.php', "Titre" => "Lorem Ipsum Title", "Description" => $lorem, "Pseudo" => "Jasser", "Categorie1" => 'Actualités', "Categorie2" => 'Politique', "Categorie3" => "Informatique");
-$nbComments = 10;
-$comment = array("Pseudo" => $user['Pseudo'], "Description" => "Trés bon article Shagay, mais en vrai va te faire foutre frere comment le site est moche c'est trop une frauduleuse campagne de recrutement")
+// Recuperer les commentaires
+$reqComments = createGetRequest(Routes::AllCommentsRoute);
+$comments = array();
+if ($reqComments["Statut"] === 200){
+    $data = $reqComments["Data"];
+    foreach($data as $comment){
+        if ($comment['IdUser'] == $_SESSION['IdUser']){
+        array_push($comments,$comment);
+        }
+    }
+}
+else{
+    echo "Pas de commentaires Trouvés";
+}
     ?>
 <div class="flex ">
     <div class=" w-7/12 h-max ml-32 mt-5 bg-white">
@@ -96,11 +133,14 @@ $comment = array("Pseudo" => $user['Pseudo'], "Description" => "Trés bon articl
                 <input class="transition duration-150 ease-in-out text-red-600 hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-600 font-bold rounded-lg px-5 py-2 cursor-pointer" name="logout" type="submit" value="Se déconnecter" />
             </form>
         </div>
-        <div class="m-4 flex flex-col gap-5">
+        <div class="m-4 flex flex-col gap-5 justify-between">
             <p class="font-semibold text-xl ">Mes articles</p>
+            <button class="Fais le gatta"><a href="<?php echo Pages::EditArticle?>">+ Nouvel Article</a></button>
             <div>
                 <?php
+                foreach($articles as $article){
                 display_Article($article);
+                }
                 ?>
             </div>
         </div>
@@ -108,12 +148,12 @@ $comment = array("Pseudo" => $user['Pseudo'], "Description" => "Trés bon articl
     <div class=" ml-16 w-3/12 mt-5">
         <div class="flex">
             <p class="font-semibold text-xl m-3">Commentaires</p>
-            <?php echo '<div class="font-semibold text-xl m-3">' . $nbComments . '</div>' ?>
+            <?php echo '<div class="font-semibold text-xl m-3">' . count($comments) . '</div>' ?>
         </div>
         <div class="flex flex-wrap">
             <?php
-            for ($i = 0; $i < $nbComments; $i++) {
-                display_Comment($comment, $user["Pseudo"]);
+            foreach($comments as $comment) {
+                display_Comment($comment,'profile');
             }
             ?>
         </div>

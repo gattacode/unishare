@@ -1,6 +1,7 @@
 <?php
-    session_start();
     include('Utils.php');
+    include('Models/Routes.php');
+    include('Models/Pages.php');
 
     if (isset($_POST['Request'])){
         switch($_POST['Request']){
@@ -11,9 +12,8 @@
                 break;
             case 'PostComment' :
                 if (isset($_POST['Desc'])){
-                    $data = array("IdArticle" => $_POST['IdArticle'],"Description" => $_POST["Desc"],"Pseudo" => "Ihoudi45","IdUser" => 2); // Utiliser les variables session pour le pseudo et l'IDUser
-                    $comments = createGetRequest("http://localhost/Blog/API/index.php/Comments");
-                    
+                    $data = array("IdArticle" => $_POST['IdArticle'],"Description" => $_POST["Desc"],"Pseudo" => $_POST['Pseudo'],"IdUser" => $_POST['IdUser']); // Utiliser les variables session pour le pseudo et l'IDUser
+                    $comments = createGetRequest(Routes::AllCommentsRoute);
                     // Code pour incrémenter les comments
                     $usedId = array();
                     foreach($comments["Data"] as $comment){
@@ -27,7 +27,7 @@
                             $stop = true;
                         }
                     }
-                    $result = createPostRequest("http://localhost/Blog/API/index.php/Comments/" . $id,$data);
+                    $result = createPostRequest(Routes::CommentsRoute . $id,$data);
 
                     header('Location: Pages/Article.php?id=%20' . $_POST['IdArticle']);
                     
@@ -36,7 +36,7 @@
                 break;
             case 'DeleteComment':
                 if (isset($_POST['Id']) and isset($_POST['IdArticle'])){
-                    createDeleteRequest("http://localhost/Blog/API/index.php/Comments/" . $_POST['Id']);
+                    createDeleteRequest(Routes::CommentsRoute . $_POST['Id']);
                     header('Location: Pages/Article.php?id=%20' . $_POST['IdArticle']);
                 }
                 else echo 'error veuillez retournez à la page précedente';
@@ -44,11 +44,11 @@
             case 'PostArticle':
                 if (isset($_POST['Title']) and isset($_POST['Desc']) and isset($_POST['Categorie1']) and isset($_POST['Categorie2']) and isset($_POST['Categorie3'])){
                     
-                    $_POST['Categorie1'] = ($_POST['Categorie1'] !== 'No') ? createGetRequest("http://localhost/Blog/API/index.php/Categories/" . $_POST['Categorie1'])["Data"][0]["Id"] : 0 ;
-                    $_POST['Categorie2'] = ($_POST['Categorie2'] !== 'No') ? createGetRequest("http://localhost/Blog/API/index.php/Categories/" . $_POST['Categorie2'])["Data"][0]["Id"]: 0 ;
-                    $_POST['Categorie3'] = ($_POST['Categorie3'] !== 'No') ? createGetRequest("http://localhost/Blog/API/index.php/Categories/" . $_POST['Categorie3'])["Data"][0]["Id"] : 0 ;
+                    $_POST['Categorie1'] = ($_POST['Categorie1'] !== 'No') ? createGetRequest( Routes::CategoriesRoute . $_POST['Categorie1'])["Data"][0]["Id"] : 0 ;
+                    $_POST['Categorie2'] = ($_POST['Categorie2'] !== 'No') ? createGetRequest( Routes::CategoriesRoute . $_POST['Categorie2'])["Data"][0]["Id"]: 0 ;
+                    $_POST['Categorie3'] = ($_POST['Categorie3'] !== 'No') ? createGetRequest( Routes::CategoriesRoute . $_POST['Categorie3'])["Data"][0]["Id"] : 0 ;
 
-                    $articles = createGetRequest('http://localhost/Blog/API/index.php/Articles');
+                    $articles = createGetRequest(Routes::AllArticlesRoute);
 
                     $usedId = array();
                     foreach($articles["Data"] as $comment){
@@ -63,9 +63,9 @@
                         }
                     }
 
-                    $newArticle = array("Titre" => $_POST['Title'],"Description" => $_POST['Desc'],"Pseudo" => "Ihoudi45","Categories" => [(int)$_POST['Categorie1'],(int)$_POST['Categorie2'],(int)$_POST['Categorie3']]);
+                    $newArticle = array("Titre" => $_POST['Title'],"Description" => $_POST['Desc'],"Pseudo" => $_POST['Pseudo'],"Categories" => [(int)$_POST['Categorie1'],(int)$_POST['Categorie2'],(int)$_POST['Categorie3']]);
                     
-                    $result = createPostRequest("http://localhost/Blog/API/index.php/Articles/" . $id,$newArticle);
+                    $result = createPostRequest(Routes::ArticlesRoute . $id,$newArticle);
                     
                     header('Location: Pages/Article.php?id=%20' . $id);
                 }

@@ -1,14 +1,17 @@
 <?php
-session_start();
 require_once('../Composants/header.php');
-require_once('../Composants/navbar.php');
-require_once('../Composants/footer.php');
-include('../Utils.php');
+
+// On protege la route 
+if (!checkUser(session_id())) {
+    require_once('../Composants/askLogin.php');
+    die();
+}
 
 // On récupere l'id de l'article , et si il existe ou pas (on detecte ainsi si il s'agit d'une modification de l'article ou d'une création)
 $url = explode("/", filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL));
+if (isset($url[4])){
 $idArticle = explode("EditArticle.php?id=%20", $url[4]);
-
+}
 if (isset($idArticle[1])) {
     // Code pour charger les valeurs
 
@@ -19,7 +22,7 @@ if (isset($idArticle[1])) {
 }
 
 // Code pour récuperer toutes les categories
-$reqCategories = createGetRequest('http://localhost/Blog/API/index.php/Categories');
+$reqCategories = createGetRequest(Routes::AllCategoriesRoute);
 $Categories = array();
 foreach($reqCategories["Data"] as $Categorie){
     if ($Categorie["Name"] !== "Undefined"){
@@ -27,14 +30,15 @@ foreach($reqCategories["Data"] as $Categorie){
     }
 }
 
-headerVue();
-display_Navbar();
+require_once('../Composants/navbar.php');
+;
 ?>
 <div class="flex mt-6">
     <div class="rounded-3xl border border-black mt-20 ml-48 h-96 w-1/3 flex bg-white justify-center items-center">Upload
         Image</div>
     <div class=" mt-20 ml-40 w-1/3">
         <form class="m-5 flex flex-col gap-3" name="EditArticle" method="post" action="../Controller.php">
+            <input name="Pseudo" value="<?php echo $_SESSION['Pseudo']?>"hidden/>
             <label class="font-semibold" >Titre</label>
             <input name="Request" value="PostArticle" hidden/>
             <input name="Title" class="border-b border-black w-1/2" value="<?php echo $Titre?>"/>
@@ -80,5 +84,6 @@ display_Navbar();
     </div>
 </div>
 <?php
-footerVue()
+
+require_once('../Composants/footer.php');
     ?>

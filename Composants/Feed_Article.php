@@ -32,7 +32,7 @@
             }
         }
         echo'
-                <p class=" mt-2 text-orange-500"><a href="http://localhost/Blog/Front/Pages/Article.php?id= ' . $article['Id'] .'">Lire la suite...</a></p>
+                <p class=" mt-2 text-orange-500"><a href="' . Pages::ArticlePage . $article['Id'] .'">Lire la suite...</a></p>
                 </div>
             </div>
         </div>';
