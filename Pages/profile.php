@@ -148,7 +148,7 @@ else{
             }
             ?>
             <p class="font-semibold text-xl ">Mes articles</p>
-            <!-- à mettre dans un form pour le profileController -->
+
             <button class="Fais le gatta"><a href="<?php echo Pages::PostArticle?>">+ Nouvel Article</a></button>
             <div class="flex flex-wrap gap-4">
                 <?php

@@ -3,7 +3,7 @@
     <form class="mr-auto my-0" method="get" action="<?php echo Pages::FeedPage ?>">
         <div class="flex flex-row w-50 bg-gray-100 p-2 px-4 rounded-xl">
             <input name="Search" type="search" id="default-search" class="w-full bg-transparent outline-none"
-                placeholder="Rechercher..." required>
+                placeholder="Filtrer par utilisateur..." required>
             <button type="submit"><svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

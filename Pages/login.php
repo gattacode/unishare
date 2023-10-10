@@ -31,7 +31,7 @@ function isRegistered($email, $password)
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_POST['password'])) {
     $registrationData = false;
-    if ($_POST['email'] == 'admin' && $_POST['password'] == 'azerty' ) {
+    if ($_POST['email'] == 'admin' and $_POST['password'] == 'azerty' ) {
         session_destroy();
         if (isset($_SERVER['HTTP_COOKIE'])) {
             $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
@@ -44,7 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_P
         }
         session_id('sessionadmin');
         session_start();
-        header('Location: '. './categories.php');
+        $registrationData = isRegistered($_POST['email'], $_POST['password']);
+        if (is_array($registrationData)){
+        $_SESSION['IdUser'] = $registrationData['Id'];
+        $_SESSION['Pseudo'] = $registrationData['Pseudo'];
+        header('Location: Feed.php');
+        }
     } else { $registrationData = isRegistered($_POST['email'], $_POST['password']);
     if (is_array($registrationData)) {
         echo 'Information valide';

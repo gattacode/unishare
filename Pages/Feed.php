@@ -55,7 +55,7 @@ if ($reqArticles["Statut"] !== 0) {
     <?php
 
     if ($ErrorCheck){
-        echo '<h1 class="font-bold">Erreur : ' . $reqArticles["Message"] . '</h1>';
+        echo '<h1 class="font-bold">Erreur  : Pas de données trouvées</h1>';
     }
     else {
         for ($i = 0; $i < count($articles); $i++) {
