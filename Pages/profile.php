@@ -21,6 +21,7 @@ if (isset($_POST['logout'])) {
             setcookie($name, '', time()-1000, '/');
         }
     }
+    header('Location: Feed.php');
 }
 function display_Article($article)
 {
