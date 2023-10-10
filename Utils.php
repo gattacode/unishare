@@ -22,12 +22,13 @@
     }
     function createPutRequest($url,$data){
         $curl = curl_init();
-        $postData = json_encode($data); // $data is an Array
+        $putData = json_encode($data); // $data is an Array
 
         curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Content-Type: application/json'));
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
-        curl_setopt($curl,CURLOPT_PUT,true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Accept: application/json','Content-Type: application/json'));
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST,"PUT");
+        curl_setopt($curl, CURLOPT_POSTFIELDS,$putData);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
 
         $json = curl_exec($curl);
         curl_close($curl);

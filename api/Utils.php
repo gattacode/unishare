@@ -1,5 +1,6 @@
 <?php
     function createQueryUpdates($id,$methodData){
+        
         $keys = array_keys($methodData);
         $j = 0;
         foreach($keys as $categorie){

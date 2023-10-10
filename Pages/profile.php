@@ -137,7 +137,7 @@ else{
         </div>
         <div class="m-4 flex flex-col gap-5 justify-between">
             <?php 
-            if (session_id() != 'sessionadmin'){
+            if (session_id() == 'sessionadmin'){
             echo '
             <p><a href="'. Pages::CategoriesPage . '">Gerer Catégories</a></P>
             ';
@@ -152,7 +152,11 @@ else{
                 display_Article($article);
                 echo '<div>
                 <a class="Fais le Gatta" href="'. Pages::EditArticle . $article['Id'] .'"> Modifier_Article</a>
-                <button class="Fias le Gatta">Suppimer_Article</buton>
+                <form name="form" action="../Controller.php" method="post"> 
+                <input name="Request" value="DeleteArticle" hidden/>
+                <input name="Id" value ="' . $article['Id'] . '"hidden/>
+                <button class="Fias le Gatta">Suppimer_Article</button>
+                </form>
                 </div>';
                 }
                 ?>

@@ -64,7 +64,7 @@ try {
         // On recupere les valeurs
         $BaseUrl = explode("/", filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL));
         $PutData = json_decode(file_get_contents('php://input'), true);
-
+        
         // On récupere la partie de l'URL qui nous interesse
         $url = array();
         for ($i = 4; $i < count($BaseUrl); $i++) {

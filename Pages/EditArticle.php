@@ -51,8 +51,8 @@ require_once('../Composants/navbar.php');
             <input name="Title" class="border-b border-black w-1/2" value="<?php echo $Titre?>"/>
 
             <?php
-                if($Request == 'PutArticle'){
-                    echo '<input name="IdArticle" value='. $idArticle .' hidden/>';
+                if($Request == 'UpdateArticle'){
+                    echo '<input name="IdArticle" value='. $id .' hidden/>';
                 }
             ?>
 
