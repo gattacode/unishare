@@ -22,7 +22,7 @@ error_reporting(E_ALL);
     <title>Unishare</title>
 </head>
 
-<body class="flex flex-col font-sans">
+<body class="flex flex-col font-sans h-screen">
 <?php 
 include_once('../Utils.php');
 include_once('../Models/Routes.php');

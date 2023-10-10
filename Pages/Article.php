@@ -70,15 +70,15 @@
 
     // Fonction pour display une catégorie
     function displayCategorie($name,$color){
-        echo '<div class="border border-black w-max h-3/6 m-5 text-center text-white font-semibold p-1 ' . $color . '" >' . $name .'</div>';
+        echo '<div class="rounded-lg w-max h-3/6 m-5 text-center text-white font-semibold py-2 px-4 ' . $color . '" >' . $name .'</div>';
     }
 ?>
-    <div class="flex ">
+    <div class="flex">
     <div class=" w-7/12 h-max ml-32 mt-5 bg-white">
         <img class="w-max h-72" src="../images/DefaultArticlePhoto.png" alt="Photo Article"/>
         <div class=" h-max">
-            <div class="flex justify-between border-b border-black">
-                <div class=" flex">
+            <div class="flex justify-between ">
+                <div class=" flex ">
                     <?php
                         for($i=1;$i<=3;$i++){
                             $index = "Categorie" . $i;
@@ -112,6 +112,16 @@
             <h1 class="font-bold m-3">Commentaires</h1>
             <?php echo '<div class="font-bold m-3">' . $nbComments . '</div>' ?>
         </div>
+        <div>
+            <form name="form" class="flex flex-col" action="../Controller.php" method="post"> 
+                <input name='Request' value="PostComment" hidden/>
+                <input name='IdArticle' value=<?php echo $article["Id"]?> hidden/>
+                <input name='Pseudo'value="<?php echo $_SESSION['Pseudo']?>" hidden/>
+                <input name='IdUser'value="<?php echo $_SESSION['IdUser']?>" hidden/>
+                <textarea class="border-b-2" name='Desc' placeholder="Postez votre commentaire"></textarea>
+                <button class="mt-4 transition duration-150 ease-in-out text-orange-400 hover:text-white border border-orange-400 hover:bg-orange-400 focus:ring-4 focus:outline-none focus:ring-orange-400 font-bold rounded-lg px-5 py-2 cursor-pointer" type="Submit">Envoyer</button>
+            </form>
+        </div>
         <div class="flex flex-wrap">
             <?php 
                 if($ErrorCheckComments){
@@ -125,16 +135,6 @@
             ?>
         </div>
     
-        <div class="border border-black">
-            <form name="form" class="flex flex-col" action="../Controller.php" method="post"> 
-                <input name='Request' value="PostComment" hidden/>
-                <input name='IdArticle' value=<?php echo $article["Id"]?> hidden/>
-                <input name='Pseudo'value="<?php echo $_SESSION['Pseudo']?>" hidden/>
-                <input name='IdUser'value="<?php echo $_SESSION['IdUser']?>" hidden/>
-                <textarea name='Desc' placeholder="Postez votre commentaire"></textarea>
-                <button class="border border-black rounded-md p-1" type="Submit"> Envoyez</button>
-            </form>
-        </div>
     </div>
     </div>      
 <?php

@@ -51,7 +51,7 @@ if ($reqArticles["Statut"] !== 0) {
 }
 
 ?>
-<div class="w-5/6 ml-44 mt-16 flex flex-wrap gap-10 h-max justify-evenly bg-transparent">
+<div class="w-full flex flex-wrap gap-10 h-max justify-evenly items-center pt-12 bg-gray-100">
     <?php
 
     if ($ErrorCheck){
