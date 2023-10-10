@@ -1,6 +1,7 @@
 <?php
 function display_Article($article)
 {
+    // Affichage de la structure principale de l'article
     echo '
         <div class="w-1/3 h-96 pb-16 bg-white ">
             <img class="w-max h-1/2" src="../images/DefaultArticlePhoto.png" alt="Photo Article"/>
@@ -15,9 +16,10 @@ function display_Article($article)
 
                 <div class=" w-96 -ml-3 h-10 m-3 flex flex-row gap-1 justify-start">
                     ';
+    // Boucle pour afficher jusqu'à 3 catégories avec des couleurs différentes
     for ($i = 1; $i <= 3; $i++) {
         $index = "Categorie" . $i;
-
+        // Assignation de couleurs différentes pour chaque catégorie
         switch ($i) {
             case 1:
                 $color = 'bg-yellow-400';
@@ -32,10 +34,12 @@ function display_Article($article)
                 $color = '';
                 break;
         }
+        // Affichage de la catégorie si elle n'est pas définie
         if ($article[$index] !== 'Undefined') {
             displayCategorie($article[$index], $color);
         }
     }
+    // Lien pour lire la suite de l'article
     echo '
                 </div>
                 <p class=" mt-2 text-orange-500 flex justify-end "><a class="hover:underline" href="' . Pages::ArticlePage . $article['Id'] . '">Lire la suite...</a></p>
@@ -44,6 +48,7 @@ function display_Article($article)
 }
 function displayCategorie($name, $color)
 {
+    // Affichage d'une catégorie avec une couleur spécifique
     echo '<div class="w-max p-1 h-5/6 m-1 text-center text-white font-semibold rounded-lg  ' . $color . '" >' . $name . '</div>';
 }
 ?>

@@ -1,10 +1,12 @@
 <?php
 require_once('../Composants/header.php');
 
+// Vérification de l'utilisateur et gestion de la déconnexion
 if (!checkUser(session_id())) {
     require_once('../Composants/askLogin.php');
     die();
 }
+
 
 require_once('../Composants/navbar.php');
 include_once('../Composants/Article_Comment.php');
@@ -72,7 +74,7 @@ function displayCategorie($name, $color)
 }
 
 
-// Recuperer les Users
+// Récupération des informations utilisateur
 if (isset($_SESSION['IdUser'])) {
     $reqUser = createGetRequest(Routes::UsersRoute . $_SESSION['IdUser']);
 
@@ -83,7 +85,7 @@ if (isset($_SESSION['IdUser'])) {
         die();
     }
 }
-// Recuperer les Articles
+// Récupération et traitement des catégories
 $reqArticles = createGetRequest(Routes::ArticlesRoute . $_SESSION['Pseudo']);
 $articles = array();
 if ($reqArticles["Statut"] !== 0) {
@@ -114,7 +116,7 @@ if ($reqArticles["Statut"] !== 0) {
     }
 }
 
-// Recuperer les commentaires
+// Récupération des commentaires
 $reqComments = createGetRequest(Routes::AllCommentsRoute);
 $comments = array();
 if ($reqComments["Statut"] === 200) {
@@ -127,6 +129,7 @@ if ($reqComments["Statut"] === 200) {
 } else {
     echo "Pas de commentaires Trouvés";
 }
+// Affichage de la page principale et des articles
 ?>
 <div class="flex ">
     <div class=" w-9/12 h-max ml-32 mt-5 bg-white">

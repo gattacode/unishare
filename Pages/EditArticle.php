@@ -1,21 +1,22 @@
 <?php
 require_once('../Composants/header.php');
 
-// On protege la route 
+// Vérification de l'authentification de l'utilisateur
 if (!checkUser(session_id())) {
     require_once('../Composants/askLogin.php');
     die();
 }
 
 
-// On récupere l'id de l'article , et si il existe ou pas (on detecte ainsi si il s'agit d'une modification de l'article ou d'une création)
+// Récupération et vérification de l'ID de l'article depuis l'URL
 $url = explode("/", filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL));
 if (isset($url[3])) {
     $idArticle = explode("EditArticle.php?id=%20", $url[3]);
 
 }
+
+// Détermination si l'article est nouveau ou en cours de modification et définition des variables en conséquence
 if (isset($idArticle[1])) {
-    // Code pour charger les valeurs
     $article = createGetRequest(Routes::ArticlesRoute . $idArticle[1])["Data"][0];
 
     $Titre = $article['Titre'];
@@ -28,7 +29,7 @@ if (isset($idArticle[1])) {
     $Request = 'PostArticle';
 }
 
-// Code pour récuperer toutes les categories
+// Récupération de toutes les catégories disponibles
 $reqCategories = createGetRequest(Routes::AllCategoriesRoute);
 $Categories = array();
 foreach ($reqCategories["Data"] as $Categorie) {
@@ -38,6 +39,8 @@ foreach ($reqCategories["Data"] as $Categorie) {
 }
 
 require_once('../Composants/navbar.php');
+
+// Formulaire de création/modification d'article
 ;
 ?>
 <div class="flex">
