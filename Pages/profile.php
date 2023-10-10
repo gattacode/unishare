@@ -48,13 +48,15 @@ function display_Article($article)
                 $color = 'bg-orange-500';
                 break;
             case 3:
-                $color = 'bg-orange-500';
+                $color = 'bg-pink-400';
                 break;
             default:
                 $color = '';
                 break;
         }
-        displayCategorie($article[$index], $color);
+        if($article[$index] !== 'Undefined'){
+            displayCategorie($article[$index],$color);
+            }
     }
     echo '
             <p class=" mt-2 text-orange-500"><a href="' . Pages::ArticlePage . $article['Id'] . '">Lire la suite...</a></p>
@@ -124,7 +126,7 @@ else{
 }
     ?>
 <div class="flex ">
-    <div class=" w-7/12 h-max ml-32 mt-5 bg-white">
+    <div class=" w-9/12 h-max ml-32 mt-5 bg-white">
         <div class="flex items-center justify-between border-b border-black">
             <div class="text-center text-xl	 m-5 p-10 font-medium">
                 <?php echo $user["Pseudo"] ?>
@@ -134,12 +136,24 @@ else{
             </form>
         </div>
         <div class="m-4 flex flex-col gap-5 justify-between">
+            <?php 
+            if (session_id() != 'sessionadmin'){
+            echo '
+            <p><a href="'. Pages::CategoriesPage . '">Gerer Catégories</a></P>
+            ';
+            }
+            ?>
             <p class="font-semibold text-xl ">Mes articles</p>
-            <button class="Fais le gatta"><a href="<?php echo Pages::EditArticle?>">+ Nouvel Article</a></button>
-            <div>
+            <!-- à mettre dans un form pour le profileController -->
+            <button class="Fais le gatta"><a href="<?php echo Pages::PostArticle?>">+ Nouvel Article</a></button>
+            <div class="flex flex-wrap gap-4">
                 <?php
                 foreach($articles as $article){
                 display_Article($article);
+                echo '<div>
+                <a class="Fais le Gatta" href="'. Pages::EditArticle . $article['Id'] .'"> Modifier_Article</a>
+                <button class="Fias le Gatta">Suppimer_Article</buton>
+                </div>';
                 }
                 ?>
             </div>

@@ -22,7 +22,7 @@
                     break;
                 case 2 : $color = 'bg-orange-500';
                     break;
-                case 3 : $color = 'bg-orange-500';
+                case 3 : $color = 'bg-pink-400';
                     break;
                 default : $color='';
                 break;

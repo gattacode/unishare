@@ -22,10 +22,8 @@ $reqArticles = createGetRequest(Routes::AllArticlesRoute);
 }
 
 $ErrorCheck = true;
-
 if ($reqArticles["Statut"] !== 0) {
     $data = $reqArticles["Data"];
-    $nbArticles = count($data);
 
     foreach ($data as $article) {
         $reqCategories = createGetRequest(Routes::ArticlesRoute . $article["id"] . '/Categories'); // a changer
@@ -59,7 +57,7 @@ if ($reqArticles["Statut"] !== 0) {
         echo '<h1 class="font-bold">Erreur : ' . $reqArticles["Message"] . '</h1>';
     }
     else {
-        for ($i = 0; $i < $nbArticles; $i++) {
+        for ($i = 0; $i < count($articles); $i++) {
             display_Article($articles[$i]);
         }
     }

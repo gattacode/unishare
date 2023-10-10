@@ -99,7 +99,13 @@ class Articles
     {
         // Code pour Modifier un article
         $updates = createQueryUpdates($id, $PutData);
+        $Categories = $PutData["Categories"];
+
+        $Categories = array("Categorie1" => $Categories[0],"Categorie2" => $Categories[1],"Categorie3" => $Categories[2]);
+        $updatesCat = createQueryUpdates($id,$Categories);
+        
         $result = putSpecific(Articles::TableName, $updates, $id);
+        $result = putSpecific(Articles::ListeTableName,$updatesCat,$id);
         return $result;
     }
     public static function deleteArticle($id)

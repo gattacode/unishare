@@ -7,6 +7,9 @@
         public static function AllCommentsArticle($id){
             return Routes::ArticlesRoute . $id . '/Comments';
         }
+        public static function AllCategoriesArticle($id){
+            return Routes::ArticlesRoute . $id . '/Categories';
+        }
         public const LoginRoute = "http://localhost/Blog/api/index.php/Login";
         public const CheckRoute = "http://localhost/Blog/api/index.php/Check";
         public const AllCommentsRoute = "http://localhost/Blog/api/index.php/Comments";
