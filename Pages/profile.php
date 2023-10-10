@@ -9,7 +9,7 @@ if (!checkUser(session_id())) {
 require_once('../Composants/navbar.php');
 include_once('../Composants/Article_Comment.php');  
 
-if ($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['logout'])) {
+if (isset($_POST['logout'])) {
     session_unset();
     // Suppression de tous les cookies
     if (isset($_SERVER['HTTP_COOKIE'])) {
@@ -71,13 +71,16 @@ function displayCategorie($name, $color)
 
 
 // Recuperer les Users
+if(isset($_SESSION['IdUser'])){
 $reqUser = createGetRequest(Routes::UsersRoute . $_SESSION['IdUser']);
+
 if ($reqUser["Statut"] === 200){
     $user = $reqUser["Data"][0];
 }
 else{
     echo "Pas de User Trouvé";
     die();
+}
 }
 // Recuperer les Articles
 $reqArticles = createGetRequest(Routes::ArticlesRoute . $_SESSION['Pseudo']);

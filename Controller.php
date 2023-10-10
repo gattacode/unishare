@@ -31,9 +31,14 @@ if (isset($_POST['Request'])) {
                 echo 'error veuillez retournez à la page précedente';
             break;
         case 'DeleteComment':
-            if (isset($_POST['Id']) and isset($_POST['IdArticle'])) {
+            if (isset($_POST['Id']) and isset($_POST['IdArticle']) and isset($_POST['Source'])) {
                 createDeleteRequest(Routes::CommentsRoute . $_POST['Id']);
+                if($_POST['Source'] == 'profile'){
+                    header('Location: Pages/Profile.php');
+                }
+                else{
                 header('Location: Pages/Article.php?id=%20' . $_POST['IdArticle']);
+                }
             } else
                 echo 'error veuillez retournez à la page précedente';
             break;
@@ -103,7 +108,10 @@ if (isset($_POST['Request'])) {
                         if ($_POST['Categorie3'] != $oldCategories["Categorie3"]) {
                             array_push($categories, (int) $_POST['Categorie3']);
                         }
+                        if(count($categories) != 0){
                         $newArticle["Categories"] = $categories;
+                        }
+                        
                         $result = createPutRequest(Routes::ArticlesRoute . (int)$_POST["IdArticle"], $newArticle);
                         header('Location: Pages/Article.php?id=%20' . $_POST["IdArticle"]);
 

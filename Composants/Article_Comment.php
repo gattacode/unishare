@@ -7,6 +7,7 @@
             
             '<form name="form" action="../Controller.php" method="post"> 
                 <input name="Request" value="DeleteComment" hidden/>
+                <input name="Source" value="'.$source .'" hidden/>
                 <input name="Id" value ="' . $comment['id'] . '"hidden/>
                 <input name="IdArticle" value ="' . $comment['IdArticle'] . '"hidden/>';
 

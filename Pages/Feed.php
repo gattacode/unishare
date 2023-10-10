@@ -10,6 +10,7 @@ if (!checkUser(session_id())) {
 }
 
 
+
 include_once('../Composants/navbar.php');
 $articles = array();
 // On cherche si il s'agit d'une recherche ou d'un simple accueil

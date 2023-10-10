@@ -2,11 +2,27 @@
 require_once('../Composants/header.php');
 require_once('../Composants/navbar.php');
 
+// Nouvelle session tout en gardant le meme navigateur
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' and isset($_SERVER['HTTP_COOKIE'])) {
+    session_destroy();
+    $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+    foreach($cookies as $cookie) {
+        $parts = explode('=', $cookie);
+        $name = trim($parts[0]);
+        setcookie($name, '', time()-1000);
+        setcookie($name, '', time()-1000, '/');
+    }
+    session_start();
+}
+
+// Recuperation des Users 
 $users = createGetRequest(Routes::AllUsersRoute);
 $usedId = array();
 foreach($users["Data"] as $user){
     array_push($usedId,$user['Id']);
 }
+
+// Determination d'un eventuel id pour eventuel nouveau user
 $stop = false;
 $id = 0;
 for($i=1;$i<=count($usedId);$i++){
@@ -20,8 +36,11 @@ if (isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['password'
     $pseudo = $_POST['pseudo'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $sessionId = $id;
-    createPostRequest(Routes::UsersRoute . $id, ["ID" => $id, "Email" => $email, "Password" => $password, "Pseudo" => $pseudo, "Admin" => 0, "SessionId" => $id ]);
+    $sessionId = session_id();
+    createPostRequest(Routes::UsersRoute . $id, ["Email" => $email, "Password" => $password, "Pseudo" => $pseudo, "Admin" => 0, "SessionId" => $sessionId ]);
+    $_SESSION['IdUser'] = $id;
+    $_SESSION['Pseudo'] = $pseudo;
+    header('Location: Feed.php');
 }
 
 ?>

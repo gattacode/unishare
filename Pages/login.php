@@ -2,7 +2,18 @@
 require_once('../Composants/header.php');
 require_once('../Composants/navbar.php');
 
-session_unset();
+// Nouvelle session tout en gardant le meme navigateur
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' and isset($_SERVER['HTTP_COOKIE'])) {
+    session_destroy();
+    $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+    foreach($cookies as $cookie) {
+        $parts = explode('=', $cookie);
+        $name = trim($parts[0]);
+        setcookie($name, '', time()-1000);
+        setcookie($name, '', time()-1000, '/');
+    }
+    session_start();
+}
 
 function isRegistered($email, $password)
 {
@@ -63,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_P
 <div class="bg-gray-100 w-full h-full flex items-center justify-center">
     <div class="bg-white w-96 h-96 rounded-3xl shadow-lg flex flex-col">
         <div class="flex flex-row flex-wrap text-center text-lg w-full justify-center my-4 h-10">
-            <a href="<?php echo Pages::LoginPage?>" class="font-bold text-gray-300 w-5/12">S'incrire</a>
+            <a href="<?php echo Pages::RegisterPage?>" class="font-bold text-gray-300 w-5/12">S'incrire</a>
             <p class="font-bold text-orange-400 w-5/12 ">Se connecter</p>
             <div class="h-px bg-gray-300 w-5/12"></div>
             <div class="h-px bg-orange-400 w-5/12 "></div>
