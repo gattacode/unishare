@@ -30,7 +30,7 @@ for ($i = 1; $i <= count($usedId); $i++) {
         $id = $i;
         $stop = true;
     }
-}
+}if($id ==0) $id = count($usedId) +1;
 
 // Traitement du formulaire d'inscription
 if (isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['password'])) {

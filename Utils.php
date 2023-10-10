@@ -1,4 +1,5 @@
 <?php
+    include('Models/Routes.php');
     function createGetRequest($url){
         $opts = array('http' => array('method' => 'GET'));
         $context = stream_context_create($opts);
@@ -45,7 +46,7 @@
     }
 
     function checkUser($sessionId){
-        $url = 'http://localhost/Blog/API/index.php/Check/' . $sessionId;
+        $url = Routes::CheckRoute . $sessionId;
         $result = createGetRequest($url);
         return ($result["Statut"] === 200) ? true : false;
     }

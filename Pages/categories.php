@@ -21,6 +21,7 @@ $requestData = createGetRequest(Routes::AllCategoriesRoute);
 foreach ($requestData['Data'] as $categorie) {
     $categories[] = $categorie['Name'];
     $categoryIds[] = $categorie['Id'];
+    
 }
 
 // Traitement de la création d'une nouvelle catégorie
@@ -54,7 +55,8 @@ if ($isAdmin) {
         </form>
     </div>
 ';
-    for ($i = 0; $i < count($categories); $i++) {
+    for ($i = 0; $i <count($categories); $i++) {
+        if ($categoryIds[$i] != 0){
         echo '
 <div class="bg-white font-bold text-orange-400 text-lg w-96 h-20 rounded-2xl shadow-lg flex flex-row justify-center p-6">
     ' . $categories[$i] . '
@@ -64,8 +66,8 @@ if ($isAdmin) {
         </button>
     </form>
 </div>';
+        }
     }
-
 
 } else {
     echo "Pas le droit d'être ici";

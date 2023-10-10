@@ -64,9 +64,10 @@ class Comments
     }
     public static function postComment($id,$PostData)
     {
+        
         // Code pour Poster une categorie
         $Comment = Comments::createComment($id,$PostData);
-
+        
         if ($Comment instanceof Exception){
             return $Comment;
         }
@@ -90,6 +91,7 @@ class Comments
     }
 
     public static function createComment($id,$methodData){
+        
         if (!empty($methodData['Description']) and !empty($methodData['IdArticle']) and !empty($methodData['Pseudo']) and !empty($methodData['IdUser'])){
             if (is_string($methodData['Description']) and is_numeric($methodData['IdArticle']) and is_string($methodData['Pseudo']) and is_numeric($methodData['IdUser'])){
                 $result = ["id" => $id,"Description" => $methodData['Description'],"IdArticle" => $methodData['IdArticle'],"Pseudo" => $methodData['Pseudo'],"IdUser" => $methodData['IdUser']];

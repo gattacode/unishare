@@ -48,10 +48,9 @@ $reqComments = createGetRequest(Routes::AllCommentsArticle($idArticle));
 
 if ($reqComments['Statut'] === 200) {
     $Comments = $reqComments['Data'];
-    $nbComments = count($Comments);
 } else {
     $ErrorCheckComments = true;
-    $nbComments = 0;
+    $Comments = array();
 }
 
 require_once('../Composants/navbar.php');
@@ -113,7 +112,7 @@ function displayCategorie($name, $color)
     <div class="ml-16 w-3/12 mt-5">
         <div class="flex">
             <h1 class="font-bold m-3">Commentaires</h1>
-            <?php echo '<div class="font-bold m-3">' . $nbComments . '</div>' ?>
+            <?php echo '<div class="font-bold m-3">' . count($Comments) . '</div>' ?>
         </div>
         <div>
             <form name="form" class="flex flex-col" action="../Controller.php" method="post">
@@ -132,7 +131,7 @@ function displayCategorie($name, $color)
             if ($ErrorCheckComments) {
                 echo '<h1> Pas de commentaires à cet article</h1>';
             } else {
-                for ($i = 0; $i < $nbComments; $i++) {
+                for ($i = 0; $i < count($Comments); $i++) {
                     display_Comment($Comments[$i], 'Article');
                 }
             }

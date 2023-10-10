@@ -1,6 +1,5 @@
 <?php
 include('Utils.php');
-include('Models/Routes.php');
 include('Models/Pages.php');
 
 // Vérification si une requête POST est envoyée
@@ -14,6 +13,7 @@ if (isset($_POST['Request'])) {
                 $comments = createGetRequest(Routes::AllCommentsRoute);
                 // Code pour incrémenter les comments
                 $usedId = array();
+                if(isset($comments["Data"])){
                 foreach ($comments["Data"] as $comment) {
                     array_push($usedId, $comment['id']);
                 }
@@ -25,12 +25,12 @@ if (isset($_POST['Request'])) {
                         $id = $i;
                         $stop = true;
                     }
-                }
+                }if($id == 0) $id =count($usedId) +1;
+            }else $id = 1;
                 // Envoi de la requête POST pour créer un nouveau commentaire
                 $result = createPostRequest(Routes::CommentsRoute . $id, $data);
-
                 header('Location: Pages/Article.php?id=%20' . $_POST['IdArticle']);
-
+            
             } else
                 echo 'error veuillez retournez à la page précedente';
             break;
@@ -71,7 +71,7 @@ if (isset($_POST['Request'])) {
                             $id = $i;
                             $stop = true;
                         }
-                    }
+                    }if($id == 0) $id = count($usedId) +1;
 
                     $newArticle = array("Titre" => $_POST['Title'], "Description" => $_POST['Desc'], "Pseudo" => $_POST['Pseudo'], "Categories" => [(int) $_POST['Categorie1'], (int) $_POST['Categorie2'], (int) $_POST['Categorie3']]);
 
