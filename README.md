@@ -1,4 +1,3 @@
-# Unishare
 ![Unishare Logo](images/logo-gradient.png)
 
 Unishare is a platform tailored for the community of Lyon 1 University. It provides students, faculty, and alumni with a space to publish and comment on articles. Built using PHP by @gattacode and @tawahinbeirut.
@@ -21,10 +20,10 @@ Apache or another compatible web server (configured to serve PHP applications)
 ### Installation
 Clone the repository:
 
-'''
+```bash
 git clone https://github.com/gattacode/unishare.git
 cd unishare
-'''
+```
 
 Set up your database and import any initial SQL files provided in the repo.
 
