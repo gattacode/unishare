@@ -1,5 +1,6 @@
 # Unishare
 ![Unishare Logo](images/logo-gradient.png)
+
 Unishare is a platform tailored for the community of Lyon 1 University. It provides students, faculty, and alumni with a space to publish and comment on articles. Built using PHP by @gattacode and @tawahinbeirut.
 
 ## Features
